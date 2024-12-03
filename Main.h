@@ -1,14 +1,18 @@
 #ifndef MAIN_H
 #define MAIN_H
-#include <string>
-#include "Date.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <iomanip>  
 #include "User.h"
+#include "Date.h" 
+#include "Account.h"
 
 class Main {
 private:
     static int userIdCount;
     User* user;
-    bool isAuthenticated;
+    bool isAuthenticated = false;
 
 public:
     static void createUser(const int userIDCount, const string& userName, const string& email,

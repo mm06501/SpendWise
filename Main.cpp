@@ -1,15 +1,9 @@
 #include "Main.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
-
-
 using namespace std;
 
-#include <iomanip>  // For formatting strings
-#include "User.h"
-#include "Date.h"   // Assuming you have the Date class header
+
+
+
 int Main::userIdCount = 10000;
 
 
@@ -41,14 +35,15 @@ void Main::createUser(const int userIDCount ,const std::string& userName, const 
 
     User myUser(userIdCount, userName, email, password, dateJoined, initialBudget, startingBalance);
 
-    std::ofstream file("users.csv", std::ios::app);
+    ofstream file("users.csv",ios::app);
 
     if (file.is_open()) {
         
        string formattedDate = myUser.getDateJoined().getDate();
 
         // Write the user details to the CSV file
-        file << myUser.getAccountNumber() <<myUser.getUserId() << "," << myUser.getUserName() << "," << myUser.getEmail() << "," << myUser.getPassword() << "," << formattedDate << std::endl;
+        file << myUser.getAccountNumber() <<myUser.getUserId() << "," << myUser.getUserName() << "," << myUser.getEmail() << "," << myUser.getPassword() 
+        << "," << formattedDate << initialBudget<< startingBalance<<endl;
 
         // Close the file after writing
         file.close();
@@ -59,32 +54,21 @@ void Main::createUser(const int userIDCount ,const std::string& userName, const 
     }
 }
 
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include "User.h"
-#include "Date.h"
-
 // Function to delete a user based on userId, email, and password
 void Main::deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password) {
-    std::ifstream file("users.csv");  // Open the file to read
-    std::stringstream buffer;         // A buffer to store the new file content
-    std::string line;
+    ifstream file("users.csv");  
+    stringstream buffer;         
+    string line;
     bool userFound = false;
 
     if (!file.is_open()) {
         std::cerr << "Error: Unable to open the file for reading." << std::endl;
         return;
     }
-
-    // Read through the entire file and load it into the buffer, excluding the user to delete
-    while (std::getline(file, line)) {
+ while (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string accountNumber, userID, userName, userEmail, userPassword, userDate;
-        
+
         std::getline(ss, accountNumber, ',');
         std::getline(ss, userID, ',');
         std::getline(ss, userName, ',');
@@ -99,7 +83,6 @@ void Main::deleteUser(int accountNumber, int userId, const std::string& email, c
             continue;  // Skip this user, don't write to the buffer
         }
 
-        // Write the non-matching users to the buffer (this excludes the deleted user)
         buffer<<accountNumber << userID << "," << userName << "," << userEmail << "," << userPassword << "," << userDate << std::endl;
     }
 
@@ -122,29 +105,39 @@ void Main::deleteUser(int accountNumber, int userId, const std::string& email, c
     outputFile.close();
 }
 
-bool Main::login(const string& email, const string& password) {
-    ifstream inFile("users.csv");
-    string line;
+bool login(const std::string& email, const std::string& password,  bool &isAuthenticated) {
+        std::ifstream inFile("users.csv");
+        std::string line;
 
+        // Check if the file opened successfully
+        if (!inFile.is_open()) {
+            std::cerr << "Error opening file." << std::endl;
+            return false;
+        }
 
-    while (getline(inFile, line)) {
-        size_t firstComma = line.find(',');
-        size_t secondComma = line.find(',', firstComma + 1);
-        size_t thirdComma = line.find(',', secondComma + 1);
-
-        if (firstComma != string::npos && secondComma != string::npos && thirdComma != string::npos) {
-            string currentEmail = line.substr(secondComma + 1, thirdComma - secondComma - 1);
-            string currentPassword = line.substr(thirdComma + 1, line.find(',', thirdComma + 1) - thirdComma - 1);
+        // Read each line from the CSV file
+        while (getline(inFile, line)) {
+            std::stringstream ss(line);  // Use stringstream to split the line
+            std::string accountNumber, userID, userName, currentEmail, currentPassword;
+            // Extract the data using getline to split by comma
+            getline(ss, accountNumber, ',');
+            getline(ss, userID, ',');
+            getline(ss, userName, ',');
+            getline(ss, currentEmail, ',');
+            getline(ss, currentPassword, ',');
 
             if (currentEmail == email && currentPassword == password) {
-                isAuthenticated = true; 
-                inFile.close();
-                cout << "Login successful." << endl;
-                return true;}}}
+                isAuthenticated = true;
+                cout << "Login successful." <<endl;
+                inFile.close(); 
+                return true;
+            }
+        }
 
-    inFile.close();
-    cout << "Login failed: Incorrect email or password." << endl;
-    return false;}
+        inFile.close();
+        std::cout << "Login failed: Incorrect email or password." << std::endl;
+        return false;
+    }
 
 bool Main::logout() {
     if (isAuthenticated) {

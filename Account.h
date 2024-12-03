@@ -27,6 +27,7 @@ class Account{
 		void writeAccountToFile();
 	public:
 		Account();
+		Account(int accountNumber, double initialBudget, double startingBalance);
 		Account(double initialBudget, double startingBalance);
 		void deposit(double amount, string description, Date date, string transactionType, string source);
 		void withdraw(double amount, string description, Date date, string transactionType, Category& category);

@@ -7,6 +7,10 @@ using namespace std;
         writeAccountToFile();
     }
 
+    Account::Account(int accountNumber, double initialBudget, double startingBalance){
+
+    }
+
     Account::Account(double initialBudget, double balance): balance(0.0), budget(new Budget(initialBudget)) {
         accountNumber = generateUniqueAccountNumber();
         accountNumber = accountNumber;
