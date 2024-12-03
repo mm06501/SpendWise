@@ -13,7 +13,7 @@ private:
 		string name;
 		double budget;
 		double spending;
-		vector<Transaction*> transactions;
+		Transaction* transactions;
 	public:
 		void addTransaction(Transaction* transaction);
 		void deleteTransaction(Transaction* transaction);

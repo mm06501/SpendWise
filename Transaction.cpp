@@ -66,3 +66,6 @@ void Transaction::writeTransactionToFile() {
         std::cerr << "Error opening transactions file!" << std::endl;
     }
 }
+
+
+//bring write transaction into account

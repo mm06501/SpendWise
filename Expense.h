@@ -3,18 +3,23 @@
 
 #include <string>
 #include "Transaction.h"
-#include "Category.h"
+#include "Category.h"  // Assuming Category is a class representing categories of expenses
+
 using namespace std;
 
-
-class Expense:public Transaction {
-    string transactionType;
-    Category* category;
-    bool isRecurring;
+class Expense : public Transaction {
+private:
+    Category* category;  // Category specific to Expense
 
 public:
-    void updateExpense();
-    void deleteExpense();
+    // Parameterized constructor for Expense class
+    Expense(Account& account, double amount, const Date& date, const string& description, Category* category);
+
+    // Getter for category
+    Category* getCategory() const;
+
+    // Setter for category
+    void setCategory(Category* cat);
 };
 
-#endif
+#endif // EXPENSE_H

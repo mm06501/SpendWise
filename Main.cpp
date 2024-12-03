@@ -29,20 +29,20 @@ int Main::userIdCount = 10000;
 //     }
 // }
 
-void Main::createUser(const int userIDCount ,const std::string& userName, const std::string& email,
+User* Main::createUser(const int userIDCount ,const std::string& userName, const std::string& email,
                       const std::string& password, const Date& dateJoined,
                        double initialBudget, double startingBalance) {
 
-    User myUser(userIdCount, userName, email, password, dateJoined, initialBudget, startingBalance);
+    User* myUser = new User(userIdCount, userName, email, password, dateJoined, initialBudget, startingBalance);
 
     ofstream file("users.csv",ios::app);
 
     if (file.is_open()) {
         
-       string formattedDate = myUser.getDateJoined().getDate();
+       string formattedDate = myUser->getDateJoined().getDate();
 
         // Write the user details to the CSV file
-        file << myUser.getAccountNumber() <<myUser.getUserId() << "," << myUser.getUserName() << "," << myUser.getEmail() << "," << myUser.getPassword() 
+        file << myUser->getAccountNumber() <<myUser->getUserId() << "," << myUser->getUserName() << "," << myUser->getEmail() << "," << myUser->getPassword() 
         << "," << formattedDate << initialBudget<< startingBalance<<endl;
 
         // Close the file after writing
@@ -52,10 +52,11 @@ void Main::createUser(const int userIDCount ,const std::string& userName, const 
 
         userIdCount++;
     }
-}
+        return myUser;}
 
 // Function to delete a user based on userId, email, and password
-void Main::deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password) {
+void Main::deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password, bool isAuthenticated) {
+    if(isAuthenticated){
     ifstream file("users.csv");  
     stringstream buffer;         
     string line;
@@ -94,9 +95,9 @@ void Main::deleteUser(int accountNumber, int userId, const std::string& email, c
     }
 
     // Now that we've processed all users, open the file in write mode and overwrite it
-    std::ofstream outputFile("users.csv");
+    ofstream outputFile("users.csv");
     if (!outputFile.is_open()) {
-        std::cerr << "Error: Unable to open the file for writing." << std::endl;
+        cerr << "Error: Unable to open the file for writing." << std::endl;
         return;
     }
 
@@ -104,8 +105,10 @@ void Main::deleteUser(int accountNumber, int userId, const std::string& email, c
     outputFile << buffer.str();
     outputFile.close();
 }
+else
+cout<<"Please log in first";}
 
-bool login(const std::string& email, const std::string& password,  bool &isAuthenticated) {
+bool Main::login(const string& email, const string& password,  bool &isAuthenticated) {
         std::ifstream inFile("users.csv");
         std::string line;
 
@@ -139,7 +142,7 @@ bool login(const std::string& email, const std::string& password,  bool &isAuthe
         return false;
     }
 
-bool Main::logout() {
+bool Main::logout(bool &isAuthenticated) {
     if (isAuthenticated) {
         isAuthenticated = false;
         cout << "Logout successful!" << endl;

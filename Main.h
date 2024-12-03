@@ -15,12 +15,12 @@ private:
     bool isAuthenticated = false;
 
 public:
-    static void createUser(const int userIDCount, const string& userName, const string& email,
+    static User* createUser(const int userIDCount, const string& userName, const string& email,
                               const string& password, const Date& dateJoined, double initialBudget, double startingBalance);
-    static void deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password);
+    static void deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password, bool isAuthenticated);
     void updateProfile(const string& authEmail, const string& authPassword);
-    bool login(const string& email, const string& password);
-    bool logout();
+    bool login(const string& email, const string& password,  bool &isAuthenticated);
+    bool logout(bool &isAuthenticated);
 };
 
 #endif

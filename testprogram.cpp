@@ -1,23 +1,79 @@
-#include "User.h"
-#include "Main.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include "Main.h"
+#include "Date.h"  // Assuming you have a Date class
+#include "User.h"  // Assuming you have a User class
 
 using namespace std;
 
 int main() {
-    
-	
-    Main::createUser(10001, "Muhammad Hashim", "hashim@example.com", "12345", Date(15, 12, 2024));
-    Main::createUser(10003, "Wasif Ali", "wasif@example.com", "password1", Date(1, 3, 2022));
-    Main::createUser(10004, "Faaiz Ali", "faaiz@example.com", "password2", Date(1, 3, 2022));
-    Main::createUser(10005, "Shan Ali", "shan@example.com", "password3", Date(1, 3, 2022));
+    Main app;  // Creating an instance of Main
 
+    int userIdCount = 10001;
+    string userName, email, password;
+    Date dateJoined;  // Assuming you have a Date object or can instantiate one
 
-    cout << "User account creation done!" << endl;
+    double initialBudget;
+    cout<<"Enter initial budget: ";
+    cin>>initialBudget;
+    cout<<"Enter starting Balance: ";
+    double startingBalance;
 
-    Main::deleteUser(10001, "hashim@example.com", "12345");
+    // Test: Create User
+    cout << "Creating a new user..." << endl;
+    cout << "Enter username: ";
+    getline(cin, userName);
+    cout << "Enter email: ";
+    getline(cin, email);
+    cout << "Enter password: ";
+    getline(cin, password);
+    cout << "Enter joining date day DD): ";
+    cin >> dateJoined.day;
+    cout << "Enter joining date Month MM): ";
+    cin>>dateJoined.month;
+    cout << "Enter joining date Year YYYY): ";
+    cin>>dateJoined.year;
 
-    cout << "Account deleted successfully!" << endl;
+    User* myUser = app.createUser(userIdCount, userName, email, password, dateJoined, initialBudget, startingBalance);
+    int accNum = myUser->getAccountNumber();
+    // Test: Login
+    bool isAuthenticated = false;
+    string loginEmail, loginPassword;
+    cout << "\nLogging in..." << endl;
+    cout << "Enter email: ";
+    getline(cin, loginEmail);
+    cout << "Enter password: ";
+    getline(cin, loginPassword);
 
-    return 0;
-}
+    if (app.login(loginEmail, loginPassword, isAuthenticated)) {
+        cout << "Login successful!" << endl;
+    } else {
+        cout << "Login failed!" << endl;
+    }
+
+    // Test: Update Profile
+    if (isAuthenticated) {
+        cout << "\nUpdating Profile..." << endl;
+
+        app.updateProfile(loginEmail, loginPassword);
+    }
+
+    // Test: Logout
+    if (app.logout(isAuthenticated)) {
+        cout << "Logged out successfully." << endl;
+    } else {
+        cout << "Logout failed." << endl;
+    }
+
+    int deleteUserId;
+    cout << "\nEnter user ID to delete: ";
+    cin >> deleteUserId;
+    cin.ignore();  // Ignore the newline character from previous input
+    string deleteEmail, deletePassword;
+    cout << "Enter email for deletion: ";
+    getline(cin, deleteEmail);
+    cout << "Enter password for deletion: ";
+    getline(cin, deletePassword);
+    app.deleteUser(accNum, deleteUserId, deleteEmail, deletePassword, isAuthenticated);
+

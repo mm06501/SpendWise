@@ -57,8 +57,8 @@ using namespace std;
     // }
 
 
-    void Account::deposit(double amount, string description, Date date, string transactionType, string source) {
-        if (amount > 0) {
+    void Account::deposit(Income* income) {
+        if (income->amount > 0) {
             balance += amount;
             cout << "Deposited: " << amount << " | New balance: " << balance << endl;
             Income income(double amount, string description, Date date, string transactionType,
