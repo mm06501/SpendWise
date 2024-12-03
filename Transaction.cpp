@@ -56,7 +56,8 @@ std::string Transaction::getTransactionDetails() const {
 void Transaction::writeTransactionToFile() {
     std::ofstream file("transactions.csv", std::ios::app);  // Open file in append mode
     if (file.is_open()) {
-        file << transactionID << ","
+        file << account.getAccountNumber() << "," 
+             << transactionID << ","
              << amount << ","
              << std::setw(2) << std::setfill('0') << date.day << "/"
              << std::setw(2) << std::setfill('0') << date.month << "/"

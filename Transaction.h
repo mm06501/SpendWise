@@ -14,7 +14,7 @@ class Transaction {
 		double amount;
 		Date date;
 		string description;
-		void writeTransactionToFile();
+		void writeTransactionToFile(Account& account);
 	public:
 		Transaction();
 		Transaction(double amount, const Date& date, const string& description);

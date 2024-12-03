@@ -3,9 +3,7 @@
 
 #include <string>
 #include "Date.h"   // Include Date header
-
-// Forward declaration of Account class, if needed later
-// #include "Account.h"  
+#include "Account.h"  
 
 using namespace std;
 
@@ -16,12 +14,12 @@ private:
     string email;  // Email address
     string password;  // Password
     Date dateJoined;  // Date of joining (Date object)
-
+    Account* account;
 public:
     // Constructors
     User();  // Default constructor
-    User(int userIDCount);  // Constructor that asks for user input
-    User(int userID, const string& userName, const string& email, const string& password, const Date& dateJoined);
+    User(int userID, const string& userName, const string& email, const string& password,
+     const Date& dateJoined, double initialBudget, double startingBalance);
 
     // Getters for User properties
     const Date& getDateJoined() const;
@@ -29,6 +27,7 @@ public:
     string getUserName() const;
     string getEmail() const;
     string getPassword() const;
+    int getAccountNumber();
 };
 
 #endif

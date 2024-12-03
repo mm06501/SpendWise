@@ -8,42 +8,44 @@ User::User() {
     // You may initialize other members here if needed
 }
 
-// Constructor that asks for user input
-User::User(int userIDCount) {
-    cout << "Enter username: ";
-    getline(cin, userName);
+// // Constructor that asks for user input
+// User::User(int userIDCount) {
+//     cout << "Enter username: ";
+//     getline(cin, userName);
 
-    cout << "Enter email: ";
-    getline(cin, email);
+//     cout << "Enter email: ";
+//     getline(cin, email);
 
-    cout << "Enter password: ";
-    getline(cin, password);
+//     cout << "Enter password: ";
+//     getline(cin, password);
 
-    // Prompt user for the join date
-    Date date;
-    cout << "Enter the date joined (format: DD): ";
-    cin >> date.day;
-    cout << "Enter the Month (format: MM): ";
-    cin >> date.month;
-    cout << "Enter the Year (format: YYYY): ";
-    cin >> date.year;
+//     // Prompt user for the join date
+//     Date date;
+//     cout << "Enter the date joined (format: DD): ";
+//     cin >> date.day;
+//     cout << "Enter the Month (format: MM): ";
+//     cin >> date.month;
+//     cout << "Enter the Year (format: YYYY): ";
+//     cin >> date.year;
 
-    // Initialize dateJoined with user input
-    dateJoined = date;
+//     // Initialize dateJoined with user input
+//     dateJoined = date;
     
-    // Optionally, initialize account if needed
-    // account = new Account;
+//     // Optionally, initialize account if needed
+//      account = new Account();
 
-    cout << "User account created!" << endl;
-}
+//     cout << "User account created!" << endl;
+// }
 
 // Parameterized constructor
-User::User(int userID, const string& userName, const string& email, const string& password, const Date& dateJoined)
+User::User(int userID, const string& userName, const string& email, const string& password, const Date& dateJoined, double initialBudget, double startingBalance)
     : userID(userID), userName(userName), email(email), password(password), dateJoined(dateJoined) {
-    // Optionally, initialize account if needed
-    // account = new Account;
+    account = new Account(initialBudget, startingBalance );
 }
-
+int User::getAccountNumber(){
+   int accNum = account->getAccountNumber();
+   return accNum;
+}
 // Getter for dateJoined
 const Date& User::getDateJoined() const { 
     return dateJoined; 

@@ -2,6 +2,7 @@
 #define ACCOUNT_H
 #include <string>
 #include <vector>
+#include "User.h"
 #include "Expense.h"
 #include "Income.h"
 #include "Category.h"
@@ -17,11 +18,12 @@
 class Account{
 	private:
 		int accountNumber;
+		User* user;
 		double balance;
 		Budget* budget;
 		Transaction* transactions;
-		static int Account::generateUniqueAccountNumber();
-		static bool Account::accountExists(int accountNumber);
+		static int generateUniqueAccountNumber();
+		static bool accountExists(int accountNumber);
 		void writeAccountToFile();
 	public:
 		Account();

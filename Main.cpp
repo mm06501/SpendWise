@@ -7,38 +7,39 @@
 
 using namespace std;
 
-int Main::userIdCount = 10000;
 #include <iomanip>  // For formatting strings
 #include "User.h"
 #include "Date.h"   // Assuming you have the Date class header
+int Main::userIdCount = 10000;
 
-// Create a new user
-void Main::createUser() {
 
-    User newUser(userIdCount);
+// void Main::createUser() {
 
-    ofstream file("users.csv", std::ios::app);
+//     User newUser(userIdCount);
 
-    if (file.is_open()) {
+//     ofstream file("users.csv", std::ios::app);
+
+//     if (file.is_open()) {
         
-        string formattedDate = newUser.getDateJoined().getDate();
+//         string formattedDate = newUser.getDateJoined().getDate();
 
-        // Write the user details to the CSV file
-        file << newUser.getUserId() << "," << newUser.getUserName() << "," << newUser.getEmail() << "," << newUser.getPassword() << "," << formattedDate << std::endl;
+//         // Write the user details to the CSV file
+//         file << newUser.getUserId() << "," << newUser.getUserName() << "," << newUser.getEmail() << "," << newUser.getPassword() << "," << formattedDate << std::endl;
 
-        // Close the file after writing
-        file.close();
+//         // Close the file after writing
+//         file.close();
 
-        cout << "User created successfully!" << endl;
+//         cout << "User created successfully!" << endl;
 
-        userIdCount++;
-    }
-}
+//         userIdCount++;
+//     }
+// }
 
 void Main::createUser(const int userIDCount ,const std::string& userName, const std::string& email,
-                      const std::string& password, const Date& dateJoined) {
+                      const std::string& password, const Date& dateJoined,
+                       double initialBudget, double startingBalance) {
 
-    User myUser(userIdCount, userName, email, password, dateJoined);
+    User myUser(userIdCount, userName, email, password, dateJoined, initialBudget, startingBalance);
 
     std::ofstream file("users.csv", std::ios::app);
 
@@ -47,7 +48,7 @@ void Main::createUser(const int userIDCount ,const std::string& userName, const 
        string formattedDate = myUser.getDateJoined().getDate();
 
         // Write the user details to the CSV file
-        file << myUser.getUserId() << "," << myUser.getUserName() << "," << myUser.getEmail() << "," << myUser.getPassword() << "," << formattedDate << std::endl;
+        file << myUser.getAccountNumber() <<myUser.getUserId() << "," << myUser.getUserName() << "," << myUser.getEmail() << "," << myUser.getPassword() << "," << formattedDate << std::endl;
 
         // Close the file after writing
         file.close();
@@ -68,7 +69,7 @@ void Main::createUser(const int userIDCount ,const std::string& userName, const 
 #include "Date.h"
 
 // Function to delete a user based on userId, email, and password
-void Main::deleteUser(int userId, const std::string& email, const std::string& password) {
+void Main::deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password) {
     std::ifstream file("users.csv");  // Open the file to read
     std::stringstream buffer;         // A buffer to store the new file content
     std::string line;
@@ -82,8 +83,9 @@ void Main::deleteUser(int userId, const std::string& email, const std::string& p
     // Read through the entire file and load it into the buffer, excluding the user to delete
     while (std::getline(file, line)) {
         std::stringstream ss(line);
-        std::string userID, userName, userEmail, userPassword, userDate;
+        std::string accountNumber, userID, userName, userEmail, userPassword, userDate;
         
+        std::getline(ss, accountNumber, ',');
         std::getline(ss, userID, ',');
         std::getline(ss, userName, ',');
         std::getline(ss, userEmail, ',');
@@ -98,7 +100,7 @@ void Main::deleteUser(int userId, const std::string& email, const std::string& p
         }
 
         // Write the non-matching users to the buffer (this excludes the deleted user)
-        buffer << userID << "," << userName << "," << userEmail << "," << userPassword << "," << userDate << std::endl;
+        buffer<<accountNumber << userID << "," << userName << "," << userEmail << "," << userPassword << "," << userDate << std::endl;
     }
 
     file.close();
