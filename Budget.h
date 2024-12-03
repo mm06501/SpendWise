@@ -9,7 +9,7 @@ using namespace std;
 
 class Budget {
 private:
-    vector<Category*> categories;
+    Category* categories;
     Date startDate;
     Date endDate;
     double totalBudget;

@@ -4,15 +4,13 @@
 // Static member initialization
 int Transaction::count = 0;
 
-Transaction::Transaction() : amount(0.0), transactionID(count), description("") {
-writeTransactionToFile();
-}
 
-Transaction::Transaction(double amount, const Date& date, const std::string& description)
-    : amount(amount), date(date), description(description) {
-    transactionID = count++;
+
+Transaction::Transaction(Account& account, double amount, const Date& date, const string& description)
+    : account(account), amount(amount), date(date), description(description), transactionID(count++) {
     writeTransactionToFile();
 }
+
 
 int Transaction::getTransactionID() const {
     return transactionID;
@@ -61,7 +59,7 @@ void Transaction::writeTransactionToFile() {
              << amount << ","
              << std::setw(2) << std::setfill('0') << date.day << "/"
              << std::setw(2) << std::setfill('0') << date.month << "/"
-             << date.year) << ","
+             << date.year << ","
              << description << "\n";
         file.close();
     } else {

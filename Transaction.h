@@ -6,6 +6,7 @@
 #include <string>
 #include "Date.h" 
 #include "Category.h"
+#include "Account.h"
 
 class Transaction {
 	protected:
@@ -14,10 +15,11 @@ class Transaction {
 		double amount;
 		Date date;
 		string description;
-		void writeTransactionToFile(Account& account);
+		Account& account;
+		void writeTransactionToFile();
 	public:
 		Transaction();
-		Transaction(double amount, const Date& date, const string& description);
+		Transaction(Account& account, double amount, const Date& date, const std::string& description);
 		string getTransactionDetails() const;
     	int getTransactionID() const;
     	void setTransactionID(int id);

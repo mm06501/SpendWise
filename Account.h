@@ -18,7 +18,7 @@
 class Account{
 	private:
 		int accountNumber;
-		User* user;
+		User& user;
 		double balance;
 		Budget* budget;
 		Transaction* transactions;

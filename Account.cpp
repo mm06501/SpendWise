@@ -115,7 +115,7 @@ using namespace std;
     void Account::writeAccountToFile() {
         ofstream file("accounts.csv", ios::app);
         if (file.is_open()) {
-            file << user.getUserID() << "," <<accountNumber << "," << balance << "," << budget->getTotalBudget() << endl;
+            file << user.getUserId() << "," <<accountNumber << "," << balance << "," << budget->getTotalBudget() << endl;
             file.close();
         } else {
             cout << "Error opening file!" << endl;
