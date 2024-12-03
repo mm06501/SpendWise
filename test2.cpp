@@ -1,10 +1,11 @@
+#include "Main.h"
 #include "User.h"
 #include <iostream>
 using namespace std;
 
 int main() {
     User user;
-
+    Main main;
     string email, password;
 
     cout << "Enter email: ";
@@ -13,7 +14,7 @@ int main() {
     cin >> password;
 
 
-    if (user.login(email, password)) {
+    if (Main.login(email, password)) {
         cout << "Login successful! Welcome to the system." << endl;
     } else {
         cout << "Login failed. Please check your credentials." << endl;

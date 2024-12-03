@@ -16,7 +16,8 @@ private:
     double totalSpending;
 
 public:
-    void getTotalBudget();
+    double getTotalBudget();
+    void setTotalBudget();
     void getTotalSpending();
     void addCategory(Category* category, double budget);
     void removeCategory(Category* category);

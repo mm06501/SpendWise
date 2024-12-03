@@ -2,26 +2,35 @@
 #define ACCOUNT_H
 #include <string>
 #include <vector>
-#include "Transaction.h" 
+#include "Expense.h"
+#include "Income.h"
+#include "Category.h"
+#include "Transaction.h"
 #include "Budget.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
 
-using namespace std;
 
 class Account{
 	private:
 		int accountNumber;
-		string accountType;
 		double balance;
-		string password;
 		Budget* budget;
-		vector<Transaction*> transactions;
-
+		Transaction* transactions;
+		static int Account::generateUniqueAccountNumber();
+		static bool Account::accountExists(int accountNumber);
+		void writeAccountToFile();
 	public:
-		void addTransaction(Transaction* transaction);
-		void deleteTransaction(Transaction* transaction);
-		double getBalance();
-		void deposit(double amount);
-		void withdraw(double amount);
-		void viewStatement();};
+		Account();
+		Account(double initialBudget, double startingBalance);
+		void deposit(double amount, string description, Date date, string transactionType, string source);
+		void withdraw(double amount, string description, Date date, string transactionType, Category& category);
+		void viewStatement() const;
+		double getBalance() const;
+		int getAccountNumber() const;
+		};
 
 #endif 
