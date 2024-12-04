@@ -13,13 +13,14 @@ private:
 
 public:
     // Parameterized constructor for Expense class
-    Expense(Account& account, double amount, const Date& date, const string& description, Category* category);
+    Expense(double amount, const Date& date, const string& description, Category* category);
 
     // Getter for category
     Category* getCategory() const;
 
     // Setter for category
     void setCategory(Category* cat);
+    void getTransactionDetails() const override;
 };
 
 #endif // EXPENSE_H

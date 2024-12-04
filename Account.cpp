@@ -2,16 +2,17 @@
 using namespace std;
 
 
-        Account::Account() : balance(0.0), budget(new Budget(0.0)) {
-        accountNumber = generateUniqueAccountNumber();
+        Account::Account() {} //: balance(0.0), budget(new Budget(Date(1,2,2024 ),Date(1,2,2024 ), 0.0)) {
+       // accountNumber = generateUniqueAccountNumber();
+       // writeAccountToFile();
+   // }
+
+    Account::Account(int accNum, double startingBalance, Budget* budget): accountNumber(accNum), balance(startingBalance),
+     budget(budget) {
         writeAccountToFile();
     }
 
-    Account::Account(int accountNumber, double initialBudget, double startingBalance){
-
-    }
-
-    Account::Account(double initialBudget, double balance): balance(0.0), budget(new Budget(initialBudget)) {
+    Account::Account(double startingBalance, Budget* budget): balance(startingBalance), budget(budget) {
         accountNumber = generateUniqueAccountNumber();
         accountNumber = accountNumber;
         writeAccountToFile();
@@ -58,27 +59,24 @@ using namespace std;
 
 
     void Account::deposit(Income* income) {
-        if (income->amount > 0) {
-            balance += amount;
-            cout << "Deposited: " << amount << " | New balance: " << balance << endl;
-            Income income(double amount, string description, Date date, string transactionType,
-        string source);
+        if (income->getAmount() > 0) {
+            balance += income->getAmount();
+            cout << "Deposited: " << income->getAmount() << " | New balance: " << balance << endl;
+            addTransaction(income);
         } else {
             cout << "Invalid deposit amount!" << endl;
         }
     }
 
-    void Account::withdraw(double amount, string description, Date date, string transactionType, Category& category) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            cout << "Withdrawn: " << amount << " | New balance: " << balance << endl;
-            Expense expense(double amount, string description,
-         Date date, string transactionType, Category& category);
+    void Account::withdraw(Expense* expense) {
+        if (expense->getAmount() > 0 && expense->getAmount() <= balance) {
+            balance -= expense->getAmount();
+            cout << "Withdrawn: " << expense->getAmount() << " | New balance: " << balance << endl;
+            addTransaction(expense);
         } else {
             cout << "Invalid withdrawal amount or insufficient balance!" << endl;
         }
     }
-
     void Account::viewStatement() const {
     cout << "Account Number: " << accountNumber << endl;
     cout << "Balance: " << balance << endl;
@@ -115,7 +113,7 @@ using namespace std;
     void Account::writeAccountToFile() {
         ofstream file("accounts.csv", ios::app);
         if (file.is_open()) {
-            file << user.getUserId() << "," <<accountNumber << "," << balance << "," << budget->getTotalBudget() << endl;
+            file << user->getUserId() << "," <<accountNumber << "," << balance << "," << budget->getTotalBudget() << endl;
             file.close();
         } else {
             cout << "Error opening file!" << endl;
@@ -128,3 +126,39 @@ using namespace std;
     double Account::getBalance() const {
         return balance;
     }
+
+    void Account::updateBalance(double newAmount){
+        balance = newAmount;
+    }
+
+    void Account::addTransaction(Expense* expense) {
+    std::ofstream file("transactions.csv", std::ios::app);  // Open file in append mode
+    if (file.is_open()) {
+        file << accountNumber << "," 
+             << expense->getTransactionID() << ","
+             << expense->getAmount() << ","
+             << std::setw(2) << std::setfill('0') << expense->getDate().day << "/"
+             << std::setw(2) << std::setfill('0') << expense->getDate().month << "/"
+             << expense->getDate().year << ","
+             << expense->getDescription() << "\n";
+        file.close();
+    } else {
+        std::cerr << "Error opening transactions file!" << std::endl;
+    }
+}
+
+void Account::addTransaction(Income* income) {
+    std::ofstream file("transactions.csv", std::ios::app);  // Open file in append mode
+    if (file.is_open()) {
+        file << accountNumber << "," 
+             << income->getTransactionID() << ","
+             << income->getAmount() << ","
+             << std::setw(2) << std::setfill('0') << income->getDate().day << "/"
+             << std::setw(2) << std::setfill('0') << income->getDate().month << "/"
+             << income->getDate().year << ","
+             << income->getDescription() << "\n";
+        file.close();
+    } else {
+        std::cerr << "Error opening transactions file!" << std::endl;
+    }
+}

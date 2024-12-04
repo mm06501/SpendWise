@@ -4,12 +4,17 @@
 #include "Main.h"
 #include "Date.h"  // Assuming you have a Date class
 #include "User.h"  // Assuming you have a User class
+#include "Budget.h"
+#include "Account.h"
+#include "Category.h"
+#include "Income.h"
+#include "Expense.h"
+#include "Transaction.h"
 
 using namespace std;
 
 int main() {
-    Main app;  // Creating an instance of Main
-
+    Main app;
     int userIdCount = 10001;
     string userName, email, password;
     Date dateJoined;  // Assuming you have a Date object or can instantiate one

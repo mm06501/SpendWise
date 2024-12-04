@@ -7,33 +7,12 @@ using namespace std;
 int Main::userIdCount = 10000;
 
 
-// void Main::createUser() {
-
-//     User newUser(userIdCount);
-
-//     ofstream file("users.csv", std::ios::app);
-
-//     if (file.is_open()) {
-        
-//         string formattedDate = newUser.getDateJoined().getDate();
-
-//         // Write the user details to the CSV file
-//         file << newUser.getUserId() << "," << newUser.getUserName() << "," << newUser.getEmail() << "," << newUser.getPassword() << "," << formattedDate << std::endl;
-
-//         // Close the file after writing
-//         file.close();
-
-//         cout << "User created successfully!" << endl;
-
-//         userIdCount++;
-//     }
-// }
 
 User* Main::createUser(const int userIDCount ,const std::string& userName, const std::string& email,
                       const std::string& password, const Date& dateJoined,
-                       double initialBudget, double startingBalance) {
+                       double initialBudget, double startingBalance, Date start, Date end) {
 
-    User* myUser = new User(userIdCount, userName, email, password, dateJoined, initialBudget, startingBalance);
+    User* myUser = new User(userIdCount, userName, email, password, dateJoined, start, end, initialBudget, startingBalance);
 
     ofstream file("users.csv",ios::app);
 
@@ -42,7 +21,7 @@ User* Main::createUser(const int userIDCount ,const std::string& userName, const
        string formattedDate = myUser->getDateJoined().getDate();
 
         // Write the user details to the CSV file
-        file << myUser->getAccountNumber() <<myUser->getUserId() << "," << myUser->getUserName() << "," << myUser->getEmail() << "," << myUser->getPassword() 
+        file << myUser->getAccountNumber() << userIdCount << "," << email << "," << password << "," << myUser->getPassword() 
         << "," << formattedDate << initialBudget<< startingBalance<<endl;
 
         // Close the file after writing

@@ -12,13 +12,11 @@ private:
 
 public:
     // Parameterized constructor for Income class
-    Income(Account& account, double amount, const Date& date, const string& description, const string& source);
-
-    // Getter for source
+    Income(double amount, const Date& date, const string& description, const string& source);
     string getSource() const;
-
-    // Setter for source
     void setSource(const string& src);
+    void getTransactionDetails() const override;
+
 };
 
 #endif // INCOME_H

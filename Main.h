@@ -15,8 +15,9 @@ private:
     bool isAuthenticated = false;
 
 public:
-    static User* createUser(const int userIDCount, const string& userName, const string& email,
-                              const string& password, const Date& dateJoined, double initialBudget, double startingBalance);
+    static User* createUser(const int userIDCount ,const std::string& userName, const std::string& email,
+                      const std::string& password, const Date& dateJoined,
+                       double initialBudget, double startingBalance, Date start, Date end);
     static void deleteUser(int accountNumber, int userId, const std::string& email, const std::string& password, bool isAuthenticated);
     void updateProfile(const string& authEmail, const string& authPassword);
     bool login(const string& email, const string& password,  bool &isAuthenticated);

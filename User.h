@@ -15,18 +15,20 @@ private:
     string password;  // Password
     Date dateJoined;  // Date of joining (Date object)
     Account* account;
+    Budget* budget;
+    string getEmail() const;
+    string getPassword() const;
 public:
     // Constructors
     User();  // Default constructor
-    User(int userID, const string& userName, const string& email, const string& password,
-     const Date& dateJoined, double initialBudget, double startingBalance);
+    User(int userID);
+    User(int userID, const string& userName, const string& email, const string& password, const Date& dateJoined,
+    Date start, Date end,double initialBudget, double startingBalance);
 
     // Getters for User properties
     const Date& getDateJoined() const;
     int getUserId() const;
     string getUserName() const;
-    string getEmail() const;
-    string getPassword() const;
     int getAccountNumber();
 };
 

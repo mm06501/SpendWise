@@ -18,21 +18,25 @@
 class Account{
 	private:
 		int accountNumber;
-		User& user;
+		User* user;
 		double balance;
 		Budget* budget;
-		Transaction* transactions;
+		Income* income;
+		Expense* expense;
 		static int generateUniqueAccountNumber();
 		static bool accountExists(int accountNumber);
 		void writeAccountToFile();
 	public:
 		Account();
-		Account(int accountNumber, double initialBudget, double startingBalance);
-		Account(double initialBudget, double startingBalance);
-		void deposit(double amount, string description, Date date, string transactionType, string source);
-		void withdraw(double amount, string description, Date date, string transactionType, Category& category);
+		Account(int accNum, double startingBalance, Budget* budget);
+		Account(double startingBalance, Budget* budget);
+		void addTransaction(Expense* expense);
+		void addTransaction(Income* income);
+		void withdraw(Expense* expense);
+		void deposit(Income* income);
 		void viewStatement() const;
 		double getBalance() const;
+		void updateBalance(double newBalance);
 		int getAccountNumber() const;
 		};
 

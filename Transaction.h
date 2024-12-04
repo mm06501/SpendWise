@@ -15,12 +15,10 @@ class Transaction {
 		double amount;
 		Date date;
 		string description;
-		Account& account;
-		void writeTransactionToFile();
 	public:
 		Transaction();
-		Transaction(Account& account, double amount, const Date& date, const std::string& description);
-		string getTransactionDetails() const;
+		Transaction(double amount, const Date& date, const string& description);
+		virtual void getTransactionDetails() const = 0;
     	int getTransactionID() const;
     	void setTransactionID(int id);
     	double getAmount() const;
@@ -28,6 +26,7 @@ class Transaction {
     	Date getDate() const;
     	void setDate(const Date& date);
 		void setDescription(const std::string& description);
+		string getDescription();
 };
 
 #endif
