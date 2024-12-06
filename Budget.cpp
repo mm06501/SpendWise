@@ -19,10 +19,20 @@ double Budget::getTotalSpending() const {
     return totalSpending;
 }
 
+Category* Budget::getCategoryById(int categoryId) {
+    for (auto& categoryPair : categories) {
+        if (categoryPair.first->getCategoryID() == categoryId) {
+            return categoryPair.first;  // Return the pointer to the matching Category
+        }
+    }
+    return nullptr;  // Return nullptr if the category was not found
+}
+
+
 // Add a category and its budget to the list
 void Budget::addCategory(Category* category, double budget) {
     categories.push_back(make_pair(category, budget));
-    updateTotalBudget();  // Recalculate total budget after adding a category
+    updateTotalBudget(); 
 }
 
 // Remove a category and its budget
@@ -52,15 +62,18 @@ void Budget::reset() {
     totalBudget = 0.0;
 }
 
-void Budget::reset() {
-    // Clear all categories
-    categories.clear();
+// void Budget::reset() {
+//     // Clear all categories
+//     categories.clear();
     
-    // Reset total spending and budget
-    totalSpending = 0.0;
-    totalBudget = 0.0;
+//     // Reset total spending and budget
+//     totalSpending = 0.0;
+//     totalBudget = 0.0;
 
-    startDate = Date();  
-    endDate = Date();    
+//     startDate = Date();  
+//     endDate = Date();    
+// }
+void Budget::setTotalSpending(double amount){
+    totalSpending = amount;
 }
 

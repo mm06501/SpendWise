@@ -2,13 +2,13 @@
 #define INCOME_H
 
 #include <string>
-#include "Transaction.h" // Include the base class Transaction header
+#include "Transaction.h" 
 
 using namespace std;
 
 class Income : public Transaction {
 private:
-    string source;  // Source specific to Income
+    string source; 
 
 public:
     // Parameterized constructor for Income class

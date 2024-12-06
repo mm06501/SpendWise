@@ -21,4 +21,4 @@ void Income::getTransactionDetails() const {
        cout<< "Amount: " << amount << "\n";
        cout<< "Date: " << date.getDate() << "\n";
        cout<< "Description: " << description << "\n";
-       cout<< "Source: " << source<<endl;
+       cout<< "Source: " << source<<endl;}

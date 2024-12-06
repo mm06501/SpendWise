@@ -19,6 +19,9 @@ public:
     // Constructor
     Budget(Date start, Date end, double initialBudget);
 
+    Category* getCategoryById(int categoryId);
+
+
     // Getter for total budget
     double getTotalBudget() const;
 
@@ -27,6 +30,7 @@ public:
 
     // Getter for total spending
     double getTotalSpending() const;
+    void setTotalSpending(double amount);
 
     // Add a category and its budget
     void addCategory(Category* category, double budget);

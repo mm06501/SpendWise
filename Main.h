@@ -10,9 +10,7 @@
 
 class Main {
 private:
-    static int userIdCount;
     User* user;
-    bool isAuthenticated = false;
 
 public:
     static User* createUser(const int userIDCount ,const std::string& userName, const std::string& email,
@@ -22,6 +20,8 @@ public:
     void updateProfile(const string& authEmail, const string& authPassword);
     bool login(const string& email, const string& password,  bool &isAuthenticated);
     bool logout(bool &isAuthenticated);
+    static int userIdCount;
+    bool isAuthenticated;
 };
 
 #endif

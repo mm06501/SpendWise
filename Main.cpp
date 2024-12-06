@@ -21,8 +21,8 @@ User* Main::createUser(const int userIDCount ,const std::string& userName, const
        string formattedDate = myUser->getDateJoined().getDate();
 
         // Write the user details to the CSV file
-        file << myUser->getAccountNumber() << userIdCount << "," << email << "," << password << "," << myUser->getPassword() 
-        << "," << formattedDate << initialBudget<< startingBalance<<endl;
+        file << myUser->getAccountNumber()<<"," << userIdCount << "," << email << "," << password 
+        << "," << formattedDate<<"," << initialBudget<<","<< startingBalance<<endl;
 
         // Close the file after writing
         file.close();
@@ -87,39 +87,47 @@ void Main::deleteUser(int accountNumber, int userId, const std::string& email, c
 else
 cout<<"Please log in first";}
 
-bool Main::login(const string& email, const string& password,  bool &isAuthenticated) {
-        std::ifstream inFile("users.csv");
-        std::string line;
 
-        // Check if the file opened successfully
-        if (!inFile.is_open()) {
-            std::cerr << "Error opening file." << std::endl;
-            return false;
-        }
 
-        // Read each line from the CSV file
-        while (getline(inFile, line)) {
-            std::stringstream ss(line);  // Use stringstream to split the line
-            std::string accountNumber, userID, userName, currentEmail, currentPassword;
-            // Extract the data using getline to split by comma
-            getline(ss, accountNumber, ',');
-            getline(ss, userID, ',');
-            getline(ss, userName, ',');
-            getline(ss, currentEmail, ',');
-            getline(ss, currentPassword, ',');
+bool Main::login(const string& email, const string& password, bool &isAuthenticated) {
+    std::ifstream inFile("users.csv");
+    std::string line;
 
-            if (currentEmail == email && currentPassword == password) {
-                isAuthenticated = true;
-                cout << "Login successful." <<endl;
-                inFile.close(); 
-                return true;
-            }
-        }
-
-        inFile.close();
-        std::cout << "Login failed: Incorrect email or password." << std::endl;
+    // Check if the file opened successfully
+    if (!inFile.is_open()) {
+        std::cerr << "Error opening file." << std::endl;
         return false;
     }
+
+    // Read each line from the CSV file
+    while (getline(inFile, line)) {
+        std::stringstream ss(line);  // Use stringstream to split the line
+        std::string accountNumber, userID, currentEmail, currentPassword, joindate, budget, amount;
+
+        // Extract the data using getline to split by comma
+        getline(ss, accountNumber, ',');  // Account Number
+        getline(ss, userID, ',');       // User Name
+        getline(ss, currentEmail, ',');  // Current Email
+        getline(ss, currentPassword, ','); // Password 1 (use this or the second password)
+        getline(ss, joindate, ',');   // Other date (12/11/2024)
+        getline(ss, budget, ',');   // Salary or another field
+        getline(ss, amount, ',');   // Another salary/amount field
+
+
+        
+        if (currentEmail == email && currentPassword == password) {
+            isAuthenticated = true;
+            std::cout << "Login successful." << std::endl;
+            inFile.close();
+            return true;
+        }
+    }
+
+    inFile.close();
+    std::cout << "Login failed: Incorrect email or password." << std::endl;
+    return false;
+}
+
 
 bool Main::logout(bool &isAuthenticated) {
     if (isAuthenticated) {

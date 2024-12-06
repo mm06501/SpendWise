@@ -7,15 +7,15 @@ using namespace std;
        // writeAccountToFile();
    // }
 
-    Account::Account(int accNum, double startingBalance, Budget* budget): accountNumber(accNum), balance(startingBalance),
+    Account::Account(int userID, int accNum, double startingBalance, Budget* budget): accountNumber(accNum), balance(startingBalance),
      budget(budget) {
-        writeAccountToFile();
+        writeAccountToFile(userID);
     }
 
-    Account::Account(double startingBalance, Budget* budget): balance(startingBalance), budget(budget) {
+    Account::Account(int userID, double startingBalance, Budget* budget): balance(startingBalance), budget(budget) {
         accountNumber = generateUniqueAccountNumber();
         accountNumber = accountNumber;
-        writeAccountToFile();
+        writeAccountToFile(userID);
     }
 
     int Account::generateUniqueAccountNumber() {
@@ -73,47 +73,23 @@ using namespace std;
             balance -= expense->getAmount();
             cout << "Withdrawn: " << expense->getAmount() << " | New balance: " << balance << endl;
             addTransaction(expense);
+            budget->setTotalSpending(budget->getTotalSpending()+expense->getAmount());
+            Category* cat = expense->getCategory();
+            int catId = cat->getCategoryID();
+            budget->getCategoryById(catId)->setTotalSpending(budget->getCategoryById(catId)->getSpending()+ expense->getAmount());
         } else {
             cout << "Invalid withdrawal amount or insufficient balance!" << endl;
         }
     }
-    void Account::viewStatement() const {
-    cout << "Account Number: " << accountNumber << endl;
-    cout << "Balance: " << balance << endl;
-    cout << "Transactions: " << endl;
-    ifstream file("transactions.csv");
-    if (!file.is_open()) {
-        cerr << "Error opening the file!" << endl;
-        return;
-    }
-    string line;
-    bool accountFound = false;
-    while (getline(file, line)) {
-        stringstream ss(line);
-        string accountNum, transaction;
-        bool firstField = true;
+    // void Account::viewStatement() const {
+    //     Report report;
+    //     report.generateReport(this->account)
+    // }
 
-        while (getline(ss, transaction, ',')) {
-            if (firstField) {
-                accountNum = transaction;
-                firstField = false;
-            } else {
-                if (accountNum == to_string(accountNumber)) {
-                    cout << "Transaction: " << transaction << endl;
-                    accountFound = true;
-                }
-            }
-        }
-    }
-    if (!accountFound) {
-        cout << "No transactions found for this account number." << endl;
-    }
-    file.close();}
-
-    void Account::writeAccountToFile() {
+    void Account::writeAccountToFile(int userID) {
         ofstream file("accounts.csv", ios::app);
         if (file.is_open()) {
-            file << user->getUserId() << "," <<accountNumber << "," << balance << "," << budget->getTotalBudget() << endl;
+            file << userID << "," <<accountNumber << "," << balance << "," << budget->getTotalBudget() << endl;
             file.close();
         } else {
             cout << "Error opening file!" << endl;
@@ -140,7 +116,9 @@ using namespace std;
              << std::setw(2) << std::setfill('0') << expense->getDate().day << "/"
              << std::setw(2) << std::setfill('0') << expense->getDate().month << "/"
              << expense->getDate().year << ","
-             << expense->getDescription() << "\n";
+             << expense->getDescription()
+             << "Withdrawal"  "\n";
+
         file.close();
     } else {
         std::cerr << "Error opening transactions file!" << std::endl;
@@ -156,7 +134,8 @@ void Account::addTransaction(Income* income) {
              << std::setw(2) << std::setfill('0') << income->getDate().day << "/"
              << std::setw(2) << std::setfill('0') << income->getDate().month << "/"
              << income->getDate().year << ","
-             << income->getDescription() << "\n";
+             << income->getDescription()
+             << "Deposit"  "\n";
         file.close();
     } else {
         std::cerr << "Error opening transactions file!" << std::endl;

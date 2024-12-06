@@ -3,13 +3,13 @@
 
 #include <string>
 #include "Transaction.h"
-#include "Category.h"  // Assuming Category is a class representing categories of expenses
+#include "Category.h" 
 
 using namespace std;
 
 class Expense : public Transaction {
 private:
-    Category* category;  // Category specific to Expense
+    Category* category;
 
 public:
     // Parameterized constructor for Expense class

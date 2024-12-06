@@ -1,5 +1,4 @@
 #include "Transaction.h"
-#include <sstream>
 
 // Static member initialization
 int Transaction::count = 0;

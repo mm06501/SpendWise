@@ -3,7 +3,9 @@
 
 #include <string>
 #include "Date.h"   // Include Date header
-#include "Account.h"  
+#include "Account.h" 
+#include "Budget.h"
+
 
 using namespace std;
 
@@ -14,7 +16,7 @@ private:
     string email;  // Email address
     string password;  // Password
     Date dateJoined;  // Date of joining (Date object)
-    Account* account;
+    Account account;
     Budget* budget;
     string getEmail() const;
     string getPassword() const;
@@ -30,6 +32,8 @@ public:
     int getUserId() const;
     string getUserName() const;
     int getAccountNumber();
+    Account* getAccount();
+    Budget* getBudget();
 };
 
 #endif

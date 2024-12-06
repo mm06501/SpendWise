@@ -32,7 +32,7 @@ User::User(int userID) {
     dateJoined = date;
     
     // Optionally, initialize account if needed
-     account = new Account();
+     account =  Account();
 
     cout << "User account created!" << endl;
 }
@@ -44,10 +44,10 @@ User::User(int userID, const string& userName, const string& email, const string
  Date start, Date end, double initialBudget, double startingBalance)
     : userID(userID), userName(userName), email(email), password(password), dateJoined(dateJoined) {
     budget = new Budget(start, end, initialBudget);
-    account = new Account(startingBalance, budget);
+    account = Account(userID, startingBalance, budget);
 }
 int User::getAccountNumber(){
-   int accNum = account->getAccountNumber();
+   int accNum = account.getAccountNumber();
    return accNum;
 }
 // Getter for dateJoined
@@ -73,4 +73,13 @@ string User::getEmail() const {
 // Getter for password
 string User::getPassword() const { 
     return password; 
+}
+
+Account* User::getAccount(){
+    Account* ptr = &account;
+    return ptr;
+}
+
+Budget* User::getBudget(){
+    return budget;
 }
